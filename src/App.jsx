@@ -211,12 +211,13 @@ const ItemRow = ({ item, onNameChange }) => (
 );
 
 const CalculatorButtons = ({ onPress }) => (
-  <div className="grid grid-cols-4 gap-2">
+  <div className="grid grid-cols-4 gap-1">
     {calcButtons.map((label) => {
       const isAction = ["C", "⌫", "="].includes(label);
       const btnStyles = `
-        flex items-center justify-center h-14 rounded-xl
+        flex items-center justify-center h-28 rounded-lg
         ${isAction ? "bg-indigo-600 text-white hover:bg-indigo-500" : "bg-slate-100 text-slate-800 hover:bg-slate-200"}
+        transition-colors font-bold text-2xl
       `;
       return (
         <button
@@ -224,7 +225,7 @@ const CalculatorButtons = ({ onPress }) => (
           className={btnStyles}
           onClick={() => onPress(label)}
         >
-          <span className="text-xl font-semibold">{label}</span>
+          {label}
         </button>
       );
     })}
@@ -358,7 +359,7 @@ const InvoiceView = ({ items, total, onNameChange, onRateChange, onQtyChange, on
 };
 
 const CalculatorInput = ({ value }) => (
-  <div className="min-h-[72px] rounded-2xl bg-slate-900 text-white px-4 py-3 text-right text-2xl break-words tracking-wider">
+  <div className="h-16 rounded-lg bg-slate-900 text-white px-3 py-2 text-right text-3xl break-words tracking-wider flex items-center justify-end font-semibold">
     {value || "0"}
   </div>
 );
@@ -490,22 +491,22 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-100 via-white to-slate-200 text-slate-800">
-      <main className="max-w-md mx-auto min-h-screen pb-24">
-        <header className="p-4 pt-8 flex justify-between items-start">
+      <main className="max-w-md mx-auto min-h-screen pb-0 flex flex-col">
+        <header className="px-4 py-3 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold">Invoice Calculator</h1>
-            <p className="text-sm text-slate-600 mt-1">Type qty * rate + ... then press "="</p>
+            <h1 className="text-xl font-bold">Invoice Calculator</h1>
+            <p className="text-xs text-slate-600">Qty * Rate + ...</p>
           </div>
           <button
             onClick={handleLogout}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 text-sm"
+            className="px-3 py-1 bg-red-600 text-white rounded text-xs font-semibold hover:bg-red-700"
           >
             Logout
           </button>
         </header>
 
         {view === "calculator" ? (
-          <div className="p-6 space-y-6">
+          <div className="flex-1 p-3 space-y-3 flex flex-col overflow-hidden">
             <CalculatorInput value={input} />
             <CalculatorButtons onPress={handleButton} />
           </div>
