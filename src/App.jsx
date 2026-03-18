@@ -211,20 +211,19 @@ const ItemRow = ({ item, onNameChange }) => (
 );
 
 const CalculatorButtons = ({ onPress }) => (
-  <div className="grid grid-cols-4 gap-2">
+  <div className="grid grid-cols-4 gap-3">
     {calcButtons.map((label) => {
       const isAction = ["C", "⌫", "="].includes(label);
-      const btnStyles = `
-        flex items-center justify-center h-14 rounded-xl
-        ${isAction ? "bg-indigo-600 text-white hover:bg-indigo-500" : "bg-slate-100 text-slate-800 hover:bg-slate-200"}
-      `;
+      const btnStyles = `flex items-center justify-center h-20 rounded-xl font-bold ${
+        isAction ? "bg-indigo-600 text-white hover:bg-indigo-500 text-2xl" : "bg-slate-100 text-slate-800 hover:bg-slate-200 text-2xl"
+      }`;
       return (
         <button
           key={label}
           className={btnStyles}
           onClick={() => onPress(label)}
         >
-          <span className="text-xl font-semibold">{label}</span>
+          <span>{label}</span>
         </button>
       );
     })}
@@ -239,35 +238,36 @@ const InvoiceView = ({ items, total, onNameChange, onRateChange, onQtyChange, on
   const cheque = 0;
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-xl font-bold">Sales - {new Date().toISOString().slice(0, 10)}</h3>
-      
-      <div className="grid grid-cols-5 bg-violet-700/90 text-white text-center py-3 px-2 text-xs">
-        <div>
-          <div className="text-sm font-bold">Count</div>
-          <div className="text-lg font-bold">{count}</div>
+    <div className="flex flex-col h-full bg-white overflow-hidden">
+      <div className="flex-1 overflow-y-auto p-3 space-y-3">
+        <h3 className="text-lg font-bold">Sales - {new Date().toISOString().slice(0, 10)}</h3>
+        
+        <div className="grid grid-cols-5 bg-violet-700/90 text-white text-center py-2 px-1 text-xs rounded-lg">
+          <div>
+            <div className="text-xs font-bold">Count</div>
+            <div className="text-base font-bold">{count}</div>
+          </div>
+          <div>
+            <div className="text-xs font-bold">Sales</div>
+            <div className="text-base font-bold">{sales.toFixed(2)}</div>
+          </div>
+          <div>
+            <div className="text-xs font-bold">Credit</div>
+            <div className="text-base font-bold">{credit.toFixed(2)}</div>
+          </div>
+          <div>
+            <div className="text-xs font-bold">Cash</div>
+            <div className="text-base font-bold">{cash.toFixed(2)}</div>
+          </div>
+          <div>
+            <div className="text-xs font-bold">Cheque</div>
+            <div className="text-base font-bold">{cheque.toFixed(2)}</div>
+          </div>
         </div>
-        <div>
-          <div className="text-sm font-bold">Sales</div>
-          <div className="text-lg font-bold">{sales.toFixed(2)}</div>
-        </div>
-        <div>
-          <div className="text-sm font-bold">Credit</div>
-          <div className="text-lg font-bold">{credit.toFixed(2)}</div>
-        </div>
-        <div>
-          <div className="text-sm font-bold">Cash</div>
-          <div className="text-lg font-bold">{cash.toFixed(2)}</div>
-        </div>
-        <div>
-          <div className="text-sm font-bold">Cheque</div>
-          <div className="text-lg font-bold">{cheque.toFixed(2)}</div>
-        </div>
-      </div>
 
-      <div className="bg-white p-4">
-        <div className="text-sm font-bold mb-3">Invoice Items</div>
-        <div className="w-full overflow-x-auto">
+        <div className="bg-slate-50 p-2 rounded-lg">
+          <div className="text-xs font-bold mb-2">Invoice Items</div>
+          <div className="w-full overflow-x-auto">
           <table className="w-full text-sm border-collapse">
             <thead className="bg-gray-200 border-b-2 border-gray-400">
               <tr>
@@ -324,32 +324,31 @@ const InvoiceView = ({ items, total, onNameChange, onRateChange, onQtyChange, on
               ))}
             </tbody>
           </table>
+          </div>
         </div>
+      </div>
 
-        <div className="mt-6 text-right border-t border-gray-300 pt-4">
-          <div className="text-base font-semibold text-gray-700">Subtotal: ₹{sales.toFixed(2)}</div>
-          <div className="text-base font-semibold text-gray-700 mt-1">Cash Paid: ₹{cash.toFixed(2)}</div>
-          <div className="text-2xl font-bold text-black mt-2">Total: ₹{total.toFixed(2)}</div>
-        </div>
+      <div className="p-3 border-t border-gray-300 bg-gray-50 flex-shrink-0">
+        <div className="text-xs font-semibold text-gray-700 mb-3">Total: ₹{total.toFixed(2)}</div>
 
-        <div className="mt-6 grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-2">
           <button
             onClick={goBack}
-            className="py-3 rounded-xl bg-gray-600 text-white font-semibold hover:bg-gray-500"
+            className="py-2.5 rounded-lg bg-gray-600 text-white font-semibold hover:bg-gray-500 text-sm"
           >
             Back
           </button>
           <button
             onClick={onDownloadPDF}
-            className="py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-500"
+            className="py-2.5 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-500 text-sm"
           >
-            Download PDF
+            PDF
           </button>
           <button
             onClick={onShareImage}
-            className="py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-500"
+            className="py-2.5 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-500 text-sm"
           >
-            Share Image
+            Share
           </button>
         </div>
       </div>
@@ -358,7 +357,7 @@ const InvoiceView = ({ items, total, onNameChange, onRateChange, onQtyChange, on
 };
 
 const CalculatorInput = ({ value }) => (
-  <div className="min-h-[72px] rounded-2xl bg-slate-900 text-white px-4 py-3 text-right text-2xl break-words tracking-wider">
+  <div className="h-20 rounded-2xl bg-slate-900 text-white px-4 py-2 text-right text-3xl break-words tracking-wider flex items-center justify-end font-bold">
     {value || "0"}
   </div>
 );
@@ -489,44 +488,48 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-100 via-white to-slate-200 text-slate-800">
-      <main className="max-w-md mx-auto min-h-screen pb-24">
-        <header className="p-4 pt-8 flex justify-between items-start">
+    <div className="h-screen bg-gradient-to-b from-slate-100 via-white to-slate-200 text-slate-800 flex flex-col">
+      <main className="max-w-md mx-auto flex flex-col flex-1 w-full">
+        <header className="p-3 pt-4 flex justify-between items-start flex-shrink-0">
           <div>
-            <h1 className="text-2xl font-bold">Invoice Calculator</h1>
-            <p className="text-sm text-slate-600 mt-1">Type qty * rate + ... then press "="</p>
+            <h1 className="text-xl font-bold">Invoice Calc</h1>
+            <p className="text-xs text-slate-600 mt-0.5">qty * rate + ...</p>
           </div>
           <button
             onClick={handleLogout}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 text-sm"
+            className="px-3 py-1.5 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 text-xs"
           >
             Logout
           </button>
         </header>
 
         {view === "calculator" ? (
-          <div className="p-6 space-y-6">
+          <div className="flex-1 flex flex-col p-4 gap-4 overflow-hidden">
             <CalculatorInput value={input} />
-            <CalculatorButtons onPress={handleButton} />
+            <div className="flex-1 flex flex-col justify-center">
+              <CalculatorButtons onPress={handleButton} />
+            </div>
           </div>
         ) : (
-          <InvoiceView
-            items={items}
-            total={grandTotal}
-            onNameChange={updateItemName}
-            onRateChange={updateItemRate}
-            onQtyChange={updateItemQty}
-            onDeleteItem={deleteItem}
-            onShareImage={doShareImage}
-            onDownloadPDF={doDownloadPDF}
-            invoiceRef={invoiceRef}
-            goBack={() => setView("calculator")}
-            onSave={doSave}
-          />
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <InvoiceView
+              items={items}
+              total={grandTotal}
+              onNameChange={updateItemName}
+              onRateChange={updateItemRate}
+              onQtyChange={updateItemQty}
+              onDeleteItem={deleteItem}
+              onShareImage={doShareImage}
+              onDownloadPDF={doDownloadPDF}
+              invoiceRef={invoiceRef}
+              goBack={() => setView("calculator")}
+              onSave={doSave}
+            />
+          </div>
         )}
 
         {saved && (
-          <div className="fixed bottom-24 inset-x-4 bg-emerald-600 text-white text-center py-2 rounded-xl shadow-lg">
+          <div className="fixed bottom-20 inset-x-4 bg-emerald-600 text-white text-center py-2 rounded-xl shadow-lg">
             Saved successfully!
           </div>
         )}
