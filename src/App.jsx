@@ -8,8 +8,8 @@ const USERS = [
 ];
 
 const calcButtons = [
-  "7", "8", "9", "C",
-  "4", "5", "6", "⌫",
+  "7", "8", "9", "⌫",
+  "4", "5", "6", "C",
   "1", "2", "3", "+",
   "0", "*", ".", "=",
 ];
@@ -267,54 +267,54 @@ const InvoiceView = ({ items, total, onNameChange, onRateChange, onQtyChange, on
 
         <div className="bg-slate-50 p-2 rounded-lg">
           <div className="text-xs font-bold mb-2">Invoice Items</div>
-          <div className="w-full overflow-x-auto">
+          <div className="w-full">
           <table className="w-full text-sm border-collapse">
             <thead className="bg-gray-200 border-b-2 border-gray-400">
               <tr>
-                <th className="px-2 py-2 text-left font-bold text-gray-700 w-12">No.</th>
-                <th className="px-3 py-2 text-left font-bold text-gray-700">Item</th>
-                <th className="px-2 py-2 text-right font-bold text-gray-700 w-14">Rate</th>
-                <th className="px-2 py-2 text-right font-bold text-gray-700 w-12">Qty</th>
-                <th className="px-2 py-2 text-right font-bold text-gray-700 w-16">Amount</th>
-                <th className="px-2 py-2 text-center font-bold text-gray-700 w-10">Delete</th>
+                <th className="px-1 py-2 text-center font-bold text-gray-700 w-8">No.</th>
+                <th className="px-1 py-2 text-left font-bold text-gray-700">Item</th>
+                <th className="px-1 py-2 text-right font-bold text-gray-700 w-10">Rate</th>
+                <th className="px-1 py-2 text-right font-bold text-gray-700 w-10">Qty</th>
+                <th className="px-1 py-2 text-right font-bold text-gray-700 w-12">Amount</th>
+                <th className="px-1 py-2 text-center font-bold text-gray-700 w-8">Del</th>
               </tr>
             </thead>
             <tbody>
               {items.map((item) => (
                 <tr key={item.id} className="border-b border-gray-300">
-                  <td className="px-2 py-3 text-gray-800 text-center w-12">{item.id}</td>
-                  <td className="px-3 py-3">
+                  <td className="px-1 py-2 text-gray-800 text-center w-8">{item.id}</td>
+                  <td className="px-1 py-2">
                     <input
                       type="text"
-                      className="w-32 px-3 py-2 text-sm font-semibold text-gray-900 border-2 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                      className="w-24 px-2 py-1 text-xs font-semibold text-gray-900 border-2 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                       value={item.name}
                       placeholder={`Item${item.id}`}
                       onChange={(e) => onNameChange(item.id, e.target.value)}
                     />
                   </td>
-                  <td className="px-2 py-3 w-14">
+                  <td className="px-1 py-2 w-10">
                     <input
                       type="number"
                       step="0.01"
-                      className="w-14 px-2 py-2 text-sm font-semibold text-gray-900 border-2 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                      className="w-10 px-1 py-1 text-xs font-semibold text-gray-900 border-2 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-right"
                       value={item.rate}
                       onChange={(e) => onRateChange(item.id, e.target.value)}
                     />
                   </td>
-                  <td className="px-2 py-3 w-12">
+                  <td className="px-1 py-2 w-10">
                     <input
                       type="number"
                       step="0.01"
-                      className="w-12 px-2 py-2 text-sm font-semibold text-gray-900 border-2 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                      className="w-10 px-1 py-1 text-xs font-semibold text-gray-900 border-2 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-right"
                       value={item.qty}
                       onChange={(e) => onQtyChange(item.id, e.target.value)}
                     />
                   </td>
-                  <td className="px-2 py-3 text-right text-gray-800 font-semibold w-16">{item.total.toFixed(2)}</td>
-                  <td className="px-2 py-3 text-center w-10">
+                  <td className="px-1 py-2 text-right text-gray-800 font-semibold text-xs w-12">{item.total.toFixed(2)}</td>
+                  <td className="px-1 py-2 text-center w-8">
                     <button
                       onClick={() => onDeleteItem(item.id)}
-                      className="text-red-600 hover:text-red-800 font-bold text-lg hover:bg-red-100 rounded px-2 py-1"
+                      className="text-red-600 hover:text-red-800 font-bold text-base hover:bg-red-100 rounded px-1 py-0.5"
                       title="Delete item"
                     >
                       ✕
