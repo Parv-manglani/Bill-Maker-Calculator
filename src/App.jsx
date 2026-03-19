@@ -33,9 +33,9 @@ const parseInvoiceItems = (expression) => {
     const part = parts[i].trim();
     if (!part) continue;
 
-    const [qtyPart, ratePart] = part.split("*").map((p) => p.trim());
-    const qty = Number(qtyPart || 0);
+    const [ratePart, qtyPart] = part.split("*").map((p) => p.trim());
     const rate = Number(ratePart || 0);
+    const qty = Number(qtyPart || 0);
 
     if (!Number.isFinite(qty) || !Number.isFinite(rate) || qty < 0 || rate < 0) {
       continue;
@@ -273,8 +273,8 @@ const InvoiceView = ({ items, total, onNameChange, onRateChange, onQtyChange, on
               <tr>
                 <th className="px-2 py-2 text-left font-bold text-gray-700 w-12">No.</th>
                 <th className="px-3 py-2 text-left font-bold text-gray-700">Item</th>
-                <th className="px-2 py-2 text-right font-bold text-gray-700 w-12">Qty</th>
                 <th className="px-2 py-2 text-right font-bold text-gray-700 w-14">Rate</th>
+                <th className="px-2 py-2 text-right font-bold text-gray-700 w-12">Qty</th>
                 <th className="px-2 py-2 text-right font-bold text-gray-700 w-16">Amount</th>
                 <th className="px-2 py-2 text-center font-bold text-gray-700 w-10">Delete</th>
               </tr>
@@ -292,15 +292,6 @@ const InvoiceView = ({ items, total, onNameChange, onRateChange, onQtyChange, on
                       onChange={(e) => onNameChange(item.id, e.target.value)}
                     />
                   </td>
-                  <td className="px-2 py-3 w-12">
-                    <input
-                      type="number"
-                      step="0.01"
-                      className="w-12 px-2 py-2 text-sm font-semibold text-gray-900 border-2 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-                      value={item.qty}
-                      onChange={(e) => onQtyChange(item.id, e.target.value)}
-                    />
-                  </td>
                   <td className="px-2 py-3 w-14">
                     <input
                       type="number"
@@ -308,6 +299,15 @@ const InvoiceView = ({ items, total, onNameChange, onRateChange, onQtyChange, on
                       className="w-14 px-2 py-2 text-sm font-semibold text-gray-900 border-2 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                       value={item.rate}
                       onChange={(e) => onRateChange(item.id, e.target.value)}
+                    />
+                  </td>
+                  <td className="px-2 py-3 w-12">
+                    <input
+                      type="number"
+                      step="0.01"
+                      className="w-12 px-2 py-2 text-sm font-semibold text-gray-900 border-2 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                      value={item.qty}
+                      onChange={(e) => onQtyChange(item.id, e.target.value)}
                     />
                   </td>
                   <td className="px-2 py-3 text-right text-gray-800 font-semibold w-16">{item.total.toFixed(2)}</td>
@@ -413,7 +413,7 @@ export default function App() {
     if (value === "=") {
       const parsedItems = parseInvoiceItems(input);
       if (!parsedItems.length) {
-        alert("Invalid expression. Please use the format 24*10+35*10+45*10");
+        alert("Invalid expression. Please use the format 10*24+10*35+10*45");
         return;
       }
       setItems(parsedItems);
@@ -493,7 +493,7 @@ export default function App() {
         <header className="p-3 pt-4 flex justify-between items-start flex-shrink-0">
           <div>
             <h1 className="text-xl font-bold">Invoice Calc</h1>
-            <p className="text-xs text-slate-600 mt-0.5">qty * rate + ...</p>
+            <p className="text-xs text-slate-600 mt-0.5">rate * qty + ...</p>
           </div>
           <button
             onClick={handleLogout}
